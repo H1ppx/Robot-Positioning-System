@@ -26,8 +26,6 @@ public class Server extends Thread implements NavSocket {
         data.add(new XY(x,y));
     }
 
-
-
     public void sendData(int dataIndex) throws IOException {
         socket = server.accept();
         outputStream = socket.getOutputStream();

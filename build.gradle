@@ -15,6 +15,10 @@ repositories {
     maven {
         url "https://raw.githubusercontent.com/Open-RIO/Maven-Mirror/master/m2"
     }
+
+    maven {
+        url "https://oss.sonatype.org/content/groups/public/"
+    }
 }
 
 dependencies {
@@ -24,6 +28,7 @@ dependencies {
     implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.342'
     implementation 'edu.wpi.first.ntcore:ntcore-java:4.0.0'
     implementation fileTree(dir: "libs", include: ['*.jar'])
+    compile 'com.flowpowered:flow-math:1.0.4-SNAPSHOT'
 }
 
 jar {
