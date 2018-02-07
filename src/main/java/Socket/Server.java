@@ -15,6 +15,12 @@ public class Server extends Thread implements NavSocket {
     private ObjectOutputStream objectOutputStream;
     private ArrayList<XY> data = new ArrayList<>();
 
+    /**
+     *
+     * @param ip IP address of your server
+     * @param port Port used for server
+     * @throws IOException
+     */
     @Override
     public void startSocket(String ip, int port) throws IOException {
         server = new ServerSocket(port);
@@ -22,10 +28,21 @@ public class Server extends Thread implements NavSocket {
         System.out.println("Server Port: " + port);
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @throws IOException
+     */
     public void addData(double x, double y) throws IOException {
         data.add(new XY(x,y));
     }
 
+    /**
+     *
+     * @param dataIndex
+     * @throws IOException
+     */
     public void sendData(int dataIndex) throws IOException {
         socket = server.accept();
         outputStream = socket.getOutputStream();
@@ -34,6 +51,10 @@ public class Server extends Thread implements NavSocket {
     }
 
 
+    /**
+     *
+     * @throws IOException
+     */
     @Override
     public void stopSocket() throws IOException {
         objectOutputStream.close();
@@ -42,12 +63,20 @@ public class Server extends Thread implements NavSocket {
         server.close();
     }
 
+    /**
+     *
+     * @return
+     * @throws UnknownHostException
+     */
     @Override
     public String getIP() throws UnknownHostException {
         String address[] = InetAddress.getLocalHost().toString().split("/");
         return address[1];
     }
 
+    /**
+     *
+     */
     public void run(){
 
         try {
