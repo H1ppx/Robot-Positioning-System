@@ -1,3 +1,5 @@
+package Robot;
+
 import Socket.Server;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
@@ -7,16 +9,16 @@ import java.io.IOException;
 
 public class NavRobot {
 
-    AHRS navx;
-    Encoder left, right;
-    double ticksPerInch;
+    private AHRS navx;
+    private Encoder left, right;
+    private double ticksPerInch;
 
-    Server myServer;
+    private Server myServer;
 
-    double oldSec;
-    double oldDistance;
-    double oldHeading;
-    Vector2d position;
+    private double oldSec;
+    private double oldDistance;
+    private double oldHeading;
+    private Vector2d position;
 
     public NavRobot(AHRS navx, Encoder left, Encoder right, double ticksPerInch) throws IOException {
         this.navx = navx;
