@@ -1,19 +1,16 @@
-package Socket;
+package socket;
 
-import Vector.Vector2d;
+import vector.Vector2d;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-public class Computer implements NavSocket {
+public class Computer {
 
     private Socket socketReceive;
     private InputStream inputStream;
     private ObjectInputStream objectInputStream;
 
-    @Override
     public void startSocket(String ip, int port) throws IOException {
         socketReceive = new Socket(ip, port);
     }
@@ -24,17 +21,10 @@ public class Computer implements NavSocket {
         return (Vector2d) objectInputStream.readObject();
     }
 
-
-    @Override
     public void stopSocket() throws IOException {
         objectInputStream.close();
         inputStream.close();
         socketReceive.close();
     }
 
-    @Override
-    public String getIP() throws UnknownHostException {
-        String address[] = InetAddress.getLocalHost().toString().split("/");
-        return address[1];
-    }
 }

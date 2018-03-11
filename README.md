@@ -1,7 +1,7 @@
 # Robot-Positioning-System
 
 
-This project was inspired by mini-maps and radars in most first person shooters. Since there is a lack of visibility from the driver station, it is hard to get an accurate position of your robot at certain times. In previous years teams have implemented periscopes into their driver stations, however their is a height limit. This project is meant to provide an accurate position of the robot in relation to the field.
+This project was inspired by mini-maps and radars in most first person shooters. Since there is a lack of visibility from the driver station in the First Robotics Challenge, it is hard to get an accurate position of your robot at certain times. In previous years teams have implemented periscopes into their driver stations, however their is a height limit. This project is meant to provide an accurate position of the robot in relation to the field.
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management

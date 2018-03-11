@@ -1,18 +1,13 @@
-package Receiver;
+package receiver;
 
-import Socket.Computer;
-import Vector.Vector2d;
+import socket.Computer;
+import vector.Vector2d;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,15 +22,15 @@ public class Map extends Application {
         final NumberAxis yAxis = new NumberAxis(0, 648,648);
         final ScatterChart<Number,Number> sc = new
                 ScatterChart<Number,Number>(xAxis,yAxis);
-        sc.setTitle("FRC-Positioning-System Test ALPHA");
+        sc.setTitle("v0.1 Pre Alpha");
+
 
         XYChart.Series currentPos   = new XYChart.Series();
 
         currentPos.setName("Position");
 
         sc.getData().addAll(currentPos);
-        Scene scene  = new Scene(sc, 319, 630);
-        scene.getStylesheets().add("ps.css");
+        Scene scene  = new Scene(sc, 320, 630);
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
@@ -68,6 +63,7 @@ public class Map extends Application {
                 }
 
             }
+
         });
         updateThread.setDaemon(true);
         updateThread.start();
