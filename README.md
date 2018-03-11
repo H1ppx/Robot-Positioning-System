@@ -15,7 +15,7 @@ See also the list of [contributors](https://github.com/H1ppx/Robot-Positioning-S
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/H1ppx/Robot-Positioning-System/blob/master/LICENSE) file for details
+This project is licensed under the Apache License 2.0 - see the [LICENSE.md](https://github.com/H1ppx/Robot-Positioning-System/blob/master/LICENSE) file for details
 
 ## Acknowledgments
 

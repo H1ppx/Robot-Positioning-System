@@ -1,9 +1,10 @@
 package Robot;
 
-import Socket.Server;
+import Socket.Rio;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
 import Vector.Vector2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.IOException;
 
@@ -11,9 +12,9 @@ public class NavRobot {
 
     private AHRS navx;
     private Encoder left, right;
-    private double ticksPerInch;
+    private double inchPerTick;
 
-    private Server myServer;
+    private Rio rio;
 
     private double oldSec;
     private double oldDistance;
@@ -24,28 +25,29 @@ public class NavRobot {
         this.navx = navx;
         this.left = left;
         this.right = right;
-        this.ticksPerInch = ticksPerInch;
+        this.inchPerTick = 1/ticksPerInch;
 
         reset();
-        myServer = new Server();
-        myServer.start();
+        rio = new Rio();
+        rio.start();
     }
 
     public void position() throws IOException {
         double pastSec = System.currentTimeMillis()/1000.0-oldSec;
         if(pastSec > 0.25) {
-            double distance = ((left.getRaw() +
-                    right.getRaw())/2)*ticksPerInch;
+            double distance = ((left.get()*inchPerTick +
+                    right.get()*inchPerTick)/2);
 
+            double angle = navx.getYaw() - oldHeading;
             double diffDistance = distance - oldDistance;
-            double heading = navx.getYaw() - oldHeading;
-            Vector2d change = new Vector2d(diffDistance, heading);
+            SmartDashboard.putNumber("Heading", angle);
+            Vector2d change = new Vector2d(diffDistance, angle);
             position = position.add(change);
-            myServer.addData(position.x,position.y);
+            rio.sendData(position.x,position.y);
 
             oldSec = System.currentTimeMillis()/1000.0;
             oldDistance = distance;
-            oldHeading = heading;
+            oldHeading = angle;
         }
 
     }
