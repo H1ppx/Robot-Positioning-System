@@ -19,6 +19,10 @@ repositories {
     maven {
         url "https://oss.sonatype.org/content/groups/public/"
     }
+
+    maven {
+        url "http://first.wpi.edu/FRC/roborio/maven/release/edu/wpi/first/shuffleboard/api/1.2.2/"
+    }
 }
 
 dependencies {
@@ -27,8 +31,9 @@ dependencies {
     implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.1.2.1'
     implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.342'
     implementation 'edu.wpi.first.ntcore:ntcore-java:4.0.0'
+    implementation(group: "edu.wpi.first.shuffleboard", name: "api", version: '1.2.2')
     implementation fileTree(dir: "libs", include: ['*.jar'])
-    compile 'com.flowpowered:flow-math:1.0.4-SNAPSHOT'
+
 }
 
 jar {
