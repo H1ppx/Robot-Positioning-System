@@ -4,5 +4,5 @@
 
 .chart-plot-background {
     -fx-background-image: url("Icon.png");
-    -fx-background-size: cover;
+    -fx-background-size: contain;
 }

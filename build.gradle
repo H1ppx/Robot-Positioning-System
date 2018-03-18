@@ -2,6 +2,8 @@ group 'me.willchu'
 version '0.1'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "Map"
 
 sourceCompatibility = 1.8
 
@@ -32,13 +34,16 @@ dependencies {
     implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.342'
     implementation 'edu.wpi.first.ntcore:ntcore-java:4.0.0'
     implementation(group: "edu.wpi.first.shuffleboard", name: "api", version: '1.2.2')
-    implementation fileTree(dir: "libs", include: ['*.jar'])
+    implementation fileTree(dir: "resources")
 
 }
 
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
-                'Implemntation-Version': project.version)
+                'Implemntation-Version': project.version,
+                'Main-Class': 'Map')
+
+
     }
 }

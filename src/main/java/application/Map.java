@@ -31,7 +31,8 @@ public class Map extends Application {
         xAxis.setOpacity(0);
         yAxis.setOpacity(0);
         sc.setTitle("v0.1 Pre Alpha");
-        sc.setPrefSize(200,600);
+        sc.setMinSize(300,580);
+        sc.setMaxSize(300,580);
 
         XYChart.Series currentPos   = new XYChart.Series();
         currentPos.setName("Position");
@@ -60,15 +61,15 @@ public class Map extends Application {
             }
         });
 
-        hbox.setSpacing(15);
+        hbox.setSpacing(10);
 
         vbox.getChildren().addAll(sc, hbox);
         hbox.getChildren().addAll(label, textField, statusLabel, statusConfirmation);
-        hbox.setPadding(new Insets(10, 10, 10, 10));
+        hbox.setPadding(new Insets(10, 5, 10, 5));
 
         ((Group)scene.getRoot()).getChildren().add(vbox);
         stage.setScene(scene);
-        stage.setWidth(390);
+        stage.setWidth(340);
         stage.setHeight(700);
         stage.setX(0);
         stage.setY(0);

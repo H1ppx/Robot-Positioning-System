@@ -1,4 +1,4 @@
-package robot;
+package Robot;
 
 import socket.Rio;
 import com.kauailabs.navx.frc.AHRS;
