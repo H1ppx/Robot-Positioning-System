@@ -1,4 +1,4 @@
-package vector;
+package utils;
 
 public class Vector2d {
 

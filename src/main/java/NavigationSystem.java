@@ -1,27 +1,20 @@
-package Robot;
-
-import socket.Rio;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
-import vector.Vector2d;
+import utils.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.io.IOException;
 
-public class NavRobot {
+public class NavigationSystem {
 
     private final AHRS navx;
     private final Encoder left, right;
     private final double inchPerTick;
-
-    private Rio rio;
-
     private double oldSec;
     private double oldDistance;
     private double oldHeading;
     private Vector2d position;
 
-    public NavRobot(AHRS navx, Encoder left, Encoder right, double ticksPerInch) {
+    public NavigationSystem(AHRS navx, Encoder left, Encoder right, double ticksPerInch) {
         this.navx = navx;
         this.left = left;
         this.right = right;
@@ -45,8 +38,6 @@ public class NavRobot {
             SmartDashboard.putNumber("RPS X", position.getX());
             SmartDashboard.putNumber("RPS Y", position.getY());
 
-            rio.send(position);
-
             oldSec = System.currentTimeMillis()/1000.0;
             oldDistance = distance;
             oldHeading = angle;
@@ -54,11 +45,9 @@ public class NavRobot {
 
     }
 
-    public void startServer(){
-        rio = new Rio();
-        rio.start();
-    }
-
+    /**
+     * Resets Position To The Left Starting Position
+     */
     public void resetLeft(){
         oldSec = 0;
         oldDistance = 0;
@@ -66,6 +55,9 @@ public class NavRobot {
         position = new Vector2d(323/4,0);
     }
 
+    /**
+     * Resets Position To The Middle Starting Position
+     */
     public void resetMiddle(){
         oldSec = 0;
         oldDistance = 0;
@@ -73,6 +65,9 @@ public class NavRobot {
         position = new Vector2d(323/2,0);
     }
 
+    /**
+     * Resets Position To The Right Starting Position
+     */
     public void resetRight(){
         oldSec = 0;
         oldDistance = 0;
@@ -80,10 +75,17 @@ public class NavRobot {
         position = new Vector2d(323*3/4,0);
     }
 
+    /**
+     * Gets Current Position
+     * @return Vector2d position
+     */
     public Vector2d getPositon(){
         return position;
     }
 
+    /**
+     * Prevents Location For lLeaving Map
+     */
     private void setPositionBounds(){
         if(position.getX() < 0){
             position.setX(0);

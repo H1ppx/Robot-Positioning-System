@@ -1,16 +1,9 @@
-package application;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import utils.Update;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
@@ -45,22 +38,16 @@ public class Map extends Application {
         final VBox vbox = new VBox();
         final HBox hbox = new HBox();
 
-
-        final Label label = new Label("Target IP:");
-        final TextField ipInput = new TextField("");
-        ipInput.setPromptText("Ex: 127.0.0.1");
         final Button connectButton = new Button("Connect");
 
         connectButton.setOnAction(e -> {
-            new Thread(new Update(ipInput.getText(), currentPos)).start();  //TODO: Test Thread
-
-            ipInput.setEditable(false);
+            new Thread(new Update(currentPos)).start();  //TODO: Test Thread
         });
 
         hbox.setSpacing(10);
 
         vbox.getChildren().addAll(sc, hbox);
-        hbox.getChildren().addAll(label, ipInput, connectButton);
+        hbox.getChildren().addAll(connectButton);
         hbox.setPadding(new Insets(10, 5, 10, 5));
 
         ((Group)scene.getRoot()).getChildren().add(vbox);
