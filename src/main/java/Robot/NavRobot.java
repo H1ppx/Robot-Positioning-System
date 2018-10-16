@@ -28,7 +28,7 @@ public class NavRobot {
         this.inchPerTick = 1/ticksPerInch;
 }
 
-    public void position() throws IOException {
+    public void updatePosition() throws IOException {
         double pastSec = System.currentTimeMillis()/1000.0-oldSec;
         if(pastSec > 0.25) {
             double distance = ((left.get()*inchPerTick +
@@ -41,6 +41,10 @@ public class NavRobot {
                     diffDistance*Math.cos(angle*Math.PI/180));
             position = position.add(change);
             setPositionBounds();
+
+            SmartDashboard.putNumber("RPS X", position.getX());
+            SmartDashboard.putNumber("RPS Y", position.getY());
+
             rio.send(position);
 
             oldSec = System.currentTimeMillis()/1000.0;
@@ -59,7 +63,7 @@ public class NavRobot {
         oldSec = 0;
         oldDistance = 0;
         oldHeading = 0;
-        position = new Vector2d(323/3,0);
+        position = new Vector2d(323/4,0);
     }
 
     public void resetMiddle(){
@@ -73,24 +77,28 @@ public class NavRobot {
         oldSec = 0;
         oldDistance = 0;
         oldHeading = 0;
-        position = new Vector2d(323*2/3,0);
+        position = new Vector2d(323*3/4,0);
     }
 
-    private void setPositionBounds() {
-        if(position.x < 0){
-            position.x = 0;
+    public Vector2d getPositon(){
+        return position;
+    }
+
+    private void setPositionBounds(){
+        if(position.getX() < 0){
+            position.setX(0);
         }
 
-        if(position.x > 323){
-            position.x = 323;
+        if(position.getX() > 323){
+            position.setX(323);
         }
 
-        if(position.y < 0){
-            position.y = 0;
+        if(position.getY() < 0){
+            position.setY(0);
         }
 
-        if(position.y > 648){
-            position.y = 648;
+        if(position.getY() > 648){
+            position.setY(648);
         }
     }
 

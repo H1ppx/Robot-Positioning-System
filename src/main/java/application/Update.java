@@ -1,5 +1,6 @@
 package application;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javafx.application.Platform;
 import javafx.scene.chart.XYChart;
 import socket.Computer;
@@ -26,21 +27,10 @@ public class Update implements Runnable{
                 Thread.sleep(600);
                 Platform.runLater(() -> xySeries.getData().clear());
                 Platform.runLater(() -> {
-                    try {
-                        myComputer.startSocket(address,5800);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                Platform.runLater(() -> {
-                    try {
-                        Vector2d pos = myComputer.receiveData();
-                        xySeries.getData().add(new XYChart.Data<>(pos.x,pos.y));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    xySeries.getData().add(new XYChart.Data<>(
+                            SmartDashboard.getNumber("RPS X", 0),
+                            SmartDashboard.getNumber("RPS Y", 0)));
+
                 });
 
             } catch (InterruptedException e) {

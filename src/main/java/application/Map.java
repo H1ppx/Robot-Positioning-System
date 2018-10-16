@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -46,25 +47,20 @@ public class Map extends Application {
 
 
         final Label label = new Label("Target IP:");
-        final TextField textField = new TextField("");
-        textField.setPromptText("Only Editable Once");
-        final Label statusLabel = new Label("Connected:");
-        Circle statusConfirmation = new Circle(10, Paint.valueOf("Red"));
+        final TextField ipInput = new TextField("");
+        ipInput.setPromptText("Ex: 127.0.0.1");
+        final Button connectButton = new Button("Connect");
 
-        textField.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                Runnable r = new Update(textField.getText(), currentPos);
-//                new Thread(r).start();  //TODO: Test Thread
+        connectButton.setOnAction(e -> {
+            new Thread(new Update(ipInput.getText(), currentPos)).start();  //TODO: Test Thread
 
-                textField.setEditable(false);
-                statusConfirmation.setFill(Paint.valueOf("Green"));
-            }
+            ipInput.setEditable(false);
         });
 
         hbox.setSpacing(10);
 
         vbox.getChildren().addAll(sc, hbox);
-        hbox.getChildren().addAll(label, textField, statusLabel, statusConfirmation);
+        hbox.getChildren().addAll(label, ipInput, connectButton);
         hbox.setPadding(new Insets(10, 5, 10, 5));
 
         ((Group)scene.getRoot()).getChildren().add(vbox);
