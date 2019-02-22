@@ -1,106 +1,114 @@
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
+import utils.Checkpoint;
 import utils.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NavigationSystem {
 
-    private final AHRS navx;
-    private final Encoder left, right;
-    private final double inchPerTick;
+    public enum DriveTrain{
+        TANK, MECANUM
+    }
+
+    private AHRS navx;
+
+    private DriveTrain driveTrain;
+
+    // Tank Encoders
+    private Encoder left, right;
+
+    // Mecanum Encoders
+    private Encoder frontLeft, frontRight, backLeft, backRight;
+
+    private ArrayList<Checkpoint> checkpoints = new ArrayList<>();
+
+    private double inchPerTick;
     private double oldSec;
     private double oldDistance;
     private double oldHeading;
     private Vector2d position;
 
-    public NavigationSystem(AHRS navx, Encoder left, Encoder right, double ticksPerInch) {
+    public NavigationSystem addNavX(AHRS navx){
         this.navx = navx;
+        return this;
+    }
+
+    public NavigationSystem addTankEncoders(Encoder left, Encoder right, double ticksPerInch){
         this.left = left;
         this.right = right;
-        this.inchPerTick = 1/ticksPerInch;
-}
+        inchPerTick = 1/ticksPerInch;
+        driveTrain = DriveTrain.TANK;
+        return this;
+    }
+
+    public NavigationSystem addMecanumEncoders(Encoder frontLeft, Encoder frontRight, Encoder backLeft, Encoder backRight, double ticksPerInch){
+        this.frontLeft = frontLeft;
+        this.frontRight = frontRight;
+        this.backLeft = backLeft;
+        this.backRight = backRight;
+        inchPerTick = 1/ticksPerInch;
+        driveTrain = DriveTrain.MECANUM;
+        return this;
+    }
+
+    /**
+     * Adds known checkpoints for on the fly position recalibration
+     * @param checkpoints
+     * @return
+     */
+    public NavigationSystem addCheckpoint(Checkpoint... checkpoints){
+        for(Checkpoint checkpoint:checkpoints){
+            this.checkpoints.add(checkpoint);
+        }
+        return this;
+    }
 
     public void updatePosition() throws IOException {
         double pastSec = System.currentTimeMillis()/1000.0-oldSec;
         if(pastSec > 0.25) {
-            double distance = ((left.get()*inchPerTick +
-                    right.get()*inchPerTick)/2);
+            switch (driveTrain) {
+                case TANK:
+                    double distance = ((left.get() * inchPerTick + right.get() * inchPerTick) / 2);
+                    double angle = navx.getYaw() - oldHeading;
+                    double diffDistance = distance - oldDistance;
+                    Vector2d change = new Vector2d(diffDistance * Math.sin(angle * Math.PI / 180),
+                            diffDistance * Math.cos(angle * Math.PI / 180));
+                    position = position.add(change);
 
-            double angle = navx.getYaw() - oldHeading;
-            double diffDistance = distance - oldDistance;
-            SmartDashboard.putNumber("Heading", angle);
-            Vector2d change = new Vector2d(diffDistance*Math.sin(angle*Math.PI/180),
-                    diffDistance*Math.cos(angle*Math.PI/180));
-            position = position.add(change);
-            setPositionBounds();
+                    oldSec = System.currentTimeMillis() / 1000.0;
+                    oldDistance = distance;
+                    oldHeading = angle;
+                    break;
+
+                case MECANUM:
+                    //TODO
+                    break;
+            }
 
             SmartDashboard.putNumber("RPS X", position.getX());
             SmartDashboard.putNumber("RPS Y", position.getY());
-
-            oldSec = System.currentTimeMillis()/1000.0;
-            oldDistance = distance;
-            oldHeading = angle;
         }
-
-    }
-
-    /**
-     * Resets Position To The Left Starting Position
-     */
-    public void resetLeft(){
-        oldSec = 0;
-        oldDistance = 0;
-        oldHeading = 0;
-        position = new Vector2d(323/4,0);
-    }
-
-    /**
-     * Resets Position To The Middle Starting Position
-     */
-    public void resetMiddle(){
-        oldSec = 0;
-        oldDistance = 0;
-        oldHeading = 0;
-        position = new Vector2d(323/2,0);
-    }
-
-    /**
-     * Resets Position To The Right Starting Position
-     */
-    public void resetRight(){
-        oldSec = 0;
-        oldDistance = 0;
-        oldHeading = 0;
-        position = new Vector2d(323*3/4,0);
     }
 
     /**
      * Gets Current Position
      * @return Vector2d position
      */
-    public Vector2d getPositon(){
+    public Vector2d getPosition(){
         return position;
     }
 
     /**
-     * Prevents Location For lLeaving Map
+     * Resets current position to position of known checkpoint
+     * @param checkpoint Known position
+     * @param reset If reset should occur
      */
-    private void setPositionBounds(){
-        if(position.getX() < 0){
-            position.setX(0);
-        }
-
-        if(position.getX() > 323){
-            position.setX(323);
-        }
-
-        if(position.getY() < 0){
-            position.setY(0);
-        }
-
-        if(position.getY() > 648){
-            position.setY(648);
+    public void resetPosition(Checkpoint checkpoint, boolean reset){
+        if(reset){
+            position = checkpoint.getPosition();
         }
     }
 
