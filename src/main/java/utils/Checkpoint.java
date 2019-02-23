@@ -1,7 +1,7 @@
 package utils;
 
 /*
- * (C) Copyright 2019 Will Chu (http://github.) and others.
+ * (C) Copyright 2019 Will Chu and others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@ package utils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *     ...
  */
 
 public class Checkpoint {
