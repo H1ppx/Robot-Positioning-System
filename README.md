@@ -11,7 +11,6 @@ This project was inspired by mini-maps and radars in most first person shooters.
 * [Gradle](https://gradle.org/) - Build Tool
 * [Electron](https://electronjs.org/) - Build Tool
 
-
 ## Authors
 
 * **William Chu** - *Initial work* - [H1ppx](https://github.com/H1ppx)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Robot Position System</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <h1> Robot Position System</h1>
+
+  <!-- TODO: Make image smaller -->
+  <canvas id="myCanvas" width="656" height="1592" style="border:1px solid #000000;"></canvas>
+
+  <script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var background = new Image();
+    background.src = "2019-field-blue.jpg";
+
+    // Make sure the image is loaded first otherwise nothing will draw.
+    background.onload = function(){
+        ctx.drawImage(background,0,0);   
+    }
+
+    // Draw whatever else over top of it on the canvas.
+    </script>
+
+
+</html>
