@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/H1ppx/Robot-Positioning-System#readme",
   "devDependencies": {
-    "electron": "^4.0.5"
+    "electron": "^7.2.4"
   },
   "dependencies": {
     "wpilib-nt-client": "^1.7.1"
